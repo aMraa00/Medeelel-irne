@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Камер хяналтын систем</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0c10; --glass:rgba(255,255,255,.08); --text:#e9ecf1; --muted:#a7b0c0;
+      --brand:#7c3aed; --brand-2:#06b6d4; --radius:20px;
+    }
+    *, *::before, *::after {box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;color:var(--text);background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5;overflow-x:hidden}
+    .bg-anim{position:fixed;inset:0;z-index:-2;filter:saturate(1.2) contrast(1.05);
+      background:
+        radial-gradient(60vmax 60vmax at 10% 20%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(50vmax 50vmax at 90% 10%, rgba(6,182,212,.25), transparent 60%),
+        radial-gradient(40vmax 40vmax at 30% 90%, rgba(255,99,132,.18), transparent 60%),
+        linear-gradient(180deg,#0b0c10 0%,#0d1017 100%);
+      animation:bgShift 18s ease-in-out infinite alternate}
+    @keyframes bgShift{0%{filter:hue-rotate(0deg) saturate(1.1)}100%{filter:hue-rotate(20deg) saturate(1.35)}}
+    .container{width:min(1100px,92vw);margin:0 auto}
+    .glass{background:var(--glass);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);border-radius:var(--radius)}
+    .nav{position:sticky;top:0;z-index:50}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .brand .logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand-2));box-shadow:0 10px 30px rgba(124,58,237,.35)}
+    .nav a{color:var(--text);text-decoration:none;opacity:.85}
+    .nav a:hover{opacity:1}
+    .nav.scrolled .nav-inner{box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .hero{padding:90px 0 60px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px}
+    @media (max-width:880px){.hero-grid{grid-template-columns:1fr}}
+    .eyebrow{display:inline-flex;gap:8px;padding:6px 10px;border-radius:999px;font-size:12px;background:rgba(124,58,237,.14);border:1px solid rgba(124,58,237,.28)}
+    h1{font-family:"Playfair Display",serif;font-size:clamp(34px,5vw,58px);line-height:1.08;margin:14px 0 10px}
+    .lead{color:var(--muted);font-size:clamp(15px,2.6vw,18px)}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .btn{padding:12px 18px;border-radius:16px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+    .btn-primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 10px 24px rgba(124,58,237,.35)}
+    .btn-outline{background:transparent;color:var(--text);border-color:rgba(255,255,255,.18)}
+    .btn:active{transform:translateY(1px)}
+    .section{padding:70px 0}
+    .section h2{font-size:clamp(24px,4vw,36px);margin:0 0 16px}
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.in{opacity:1;transform:none}
+    footer{padding:40px 0;color:#b8c0d0;font-size:14px;text-align:center;}
+    .hero-right-img{width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+    form#requestForm label{display:grid;gap:6px;font-weight:600;color:var(--text)}
+    form#requestForm input, form#requestForm select, form#requestForm textarea{padding:12px 14px;border-radius:12px;border:1px solid rgba(124,58,237,0.5);background:rgba(15,15,25,0.9);color:#e9ecf1;font-size:15px;transition:all .25s ease,box-shadow .25s ease;font-family:Inter,sans-serif}
+    form#requestForm input:focus, form#requestForm select:focus, form#requestForm textarea:focus{outline:none;border-color:var(--brand-2);box-shadow:0 0 12px var(--brand-2),0 0 24px var(--brand);background:rgba(25,25,35,0.95)}
+    form#requestForm input::placeholder, form#requestForm textarea::placeholder{color:#a7b0c0;opacity:.75}
+    form#requestForm button[type="submit"]{padding:12px 18px;border-radius:14px;font-weight:700;font-size:15px;cursor:pointer;border:none;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#fff;box-shadow:0 0 12px var(--brand),0 0 24px var(--brand-2);transition:transform .15s ease,box-shadow .25s ease}
+    form#requestForm button[type="submit"]:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 0 16px var(--brand),0 0 32px var(--brand-2)}
+    form#requestForm button[type="submit"]:active:not(:disabled){transform:translateY(1px)}
+    form#requestForm button[type="submit"]:disabled{opacity:0.6;cursor:not-allowed;}
+  </style>
+</head>
+<body>
+  <div class="bg-anim" aria-hidden="true"></div>
+
+  <!-- NAVBAR -->
+  <header class="nav">
+    <div class="container nav-inner glass">
+      <div class="brand"><span class="logo"></span> MotionSite</div>
+      <nav style="display:flex;gap:18px;align-items:center">
+        <a href="#features">Байршил</a>
+        <a href="#cta">Хүсэлт</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="reveal" style="transition-delay:.1s">
+        <span class="eyebrow">Камер шүүлгэх үйлчилгээ</span>
+        <h1>Камер хяналтын систем</h1>
+        <p class="lead">Та санал, гомдол болон камер шүүлгэх хүсэлтийг доорх линк дарж илгээнэ үү.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#cta">Шууд ашиглах</a>
+          <button type="button" class="btn btn-outline" id="openModal">Демо үзэх</button>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:.25s">
+        <img src="download.jpeg" alt="Камер хяналтын систем" class="hero-right-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES / MAP -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="reveal">Байршил</h2>
+      <div class="glass reveal" style="overflow:hidden;border-radius:18px;padding:0">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4219.56160542087!2d91.63651855313283!3d48.0064317049944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5d4e6123d62b8b01%3A0xfd0588b447da5d95!2sPolice%20Station!5e1!3m2!1sen!2smn!4v1755676918908!5m2!1sen!2smn"
+          width="100%" height="420" style="border:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map of the Police Station">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="section">
+    <div class="container glass reveal" style="padding:24px;display:grid;gap:10px;place-items:center;text-align:center">
+      <h2>Сайн байна уу?</h2>
+      <p class="lead" style="max-width:720px">Дараах товчийг дарж камертай холбоотой хүсэлтээ илгээх боломжтой.</p>
+      <div class="cta">
+        <button type="button" class="btn btn-primary" id="openModal2">Хүсэлт илгээх</button>
+        <button type="button" class="btn btn-outline" onclick="scrollTo({top:0,behavior:'smooth'})">Дээд тал руу</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL (EmailJS form) -->
+  <dialog id="demoModal" class="glass" style="border:none;padding:0;border-radius:18px;max-width:760px;width:92vw;">
+    <div style="padding:20px 18px 6px;display:flex;justify-content:space-between;align-items:center">
+      <strong>Камер хандалтын хүсэлт</strong>
+      <button type="button" id="closeModal" class="btn btn-outline" style="padding:8px 12px">X</button>
+    </div>
+    <div style="padding:12px 18px 24px">
+      <form id="requestForm" style="display:grid;gap:12px;">
+        <label>Нэр:
+          <input type="text" name="name" required style="width:100%;padding:8px;">
+        </label>
+        <label>Имэйл хаяг:
+          <input type="email" name="user_email" required style="width:100%;padding:8px;" placeholder="name@example.com">
+        </label>
+        <label>Регистрийн дугаар:
+          <input type="text" name="regnum" required maxlength="10" style="width:100%;padding:8px;" placeholder="АА12345678">
+        </label>
+        <label>Камерын байршил:
+          <select name="location" style="width:100%;padding:8px;">
+            <option>Үүд</option>
+            <option>1-р давхар</option>
+            <option>Гадаад хэсэг</option>
+          </select>
+        </label>
+        <label>Хүссэн огноо:
+          <input type="date" name="date" required style="width:100%;padding:8px;">
+        </label>
+        <label>Эхлэх цаг:
+          <input type="time" name="timeStart" required style="width:100%;padding:8px;">
+        </label>
+        <label>Дуусах цаг:
+          <input type="time" name="timeEnd" required style="width:100%;padding:8px;">
+        </label>
+        <label>Зорилго:
+          <textarea name="purpose" required style="width:100%;padding:8px;min-height:80px;"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Хүсэлт илгээх</button>
+      </form>
+    </div>
+  </dialog>
+  
+  <footer style="padding: 40px 0;">
+      <p>&copy; <span id="year"></span> MotionSite. Бүх эрх хуулиар хамгаалагдсан.</p>
+  </footer>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+
+  <script>
+    // Sticky nav shadow
+    const nav = document.querySelector('.nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('in');
+      }),
+      { threshold: .15 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Modal open/close
+    const modal = document.getElementById('demoModal');
+    const open1 = document.getElementById('openModal');
+    const open2 = document.getElementById('openModal2');
+    const closeBtn = document.getElementById('closeModal');
+    open1?.addEventListener('click', () => modal.showModal());
+    open2?.addEventListener('click', () => modal.showModal());
+    closeBtn?.addEventListener('click', () => modal.close());
+    modal?.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // EmailJS init
+    (function () {
+      emailjs.init("oGoliqyokHPHzC1gS"); // 🔑 Таны Public Key
+    })();
+
+    // Хэрэглэгч хүсэлт илгээх FORM
+    const form = document.getElementById('requestForm');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const SERVICE_ID = "service_43dd0o9";
+      const TEMPLATE_ID_ADMIN = "template_lhcqda4";  // Админ руу явах темплейт
+      
+      // Хэрэглэгч рүү "Хүсэлтийг хүлээж авлаа" гэсэн имэйл илгээх бол энийг ашиглана.
+      // const TEMPLATE_ID_USER_CONFIRM = "template_1v69js3"; // Та энэ темплейтийг EmailJS дээрээ үүсгэсэн байх ёстой.
+
+      const submitBtn = form.querySelector('[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Илгээж байна...";
+
+      try {
+        // 1. Админ руу хүсэлтийг илгээх
+        await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID_ADMIN, form);
+
+        // 2. (Нэмэлт) Хэрэглэгчид баталгаажуулах имэйл илгээх
+        // await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID_USER_CONFIRM, form);
+
+        alert("✅ Хүсэлт амжилттай илгээгдлээ!");
+        form.reset();
+        modal.close();
+      } catch (err) {
+        console.error("EmailJS error:", err);
+        alert("❌ Алдаа гарлаа. Та дахин оролдоно уу.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Хүсэлт илгээх";
+      }
+    });
+  </script>
+</body>
+</html>

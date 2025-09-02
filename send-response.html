@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Хариу илгээгдэж байна...</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0b0c10;
+            color: #e9ecf1;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, .08);
+            backdrop-filter: blur(14px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        h1 {
+            color: #7c3aed;
+        }
+
+        .success {
+            color: #00ff9f;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="status">
+            <h1>Түр хүлээнэ үү...</h1>
+            <p>Хариу илгээгдэж байна.</p>
+        </div>
+    </div>
+
+    <script>
+        // EmailJS Public Key-ээ оруулна уу
+        (function () {
+            emailjs.init("oGoliqyokHPHzC1gS");
+        })();
+
+        const SERVICE_ID = "service_43dd0o9";
+        const TEMPLATE_ID_USER_RESPONSE = "template_user_response"; // Алхам 1-д үүсгэсэн загварын нэр
+
+        const statusEl = document.getElementById('status');
+
+        // URL-ийн параметрийг унших функц
+        const urlParams = new URLSearchParams(window.location.search);
+        const decision = urlParams.get('decision');
+        const name = urlParams.get('name');
+        const email = urlParams.get('email');
+        const date = urlParams.get('date');
+        const location = urlParams.get('location');
+
+        // Шийдвэрээс хамаарч текст болон өнгийг тохируулах
+        let decisionText, decisionBgColor, decisionTextColor;
+        if (decision === 'approved') {
+            decisionText = 'Зөвшөөрсөн';
+            decisionBgColor = '#003d2e';
+            decisionTextColor = '#00ff9f';
+        } else {
+            decisionText = 'Татгалзсан';
+            decisionBgColor = '#3d0000';
+            decisionTextColor = '#ff6b6b';
+        }
+
+        // EmailJS-ээр и-мэйл илгээх
+        const templateParams = {
+            name: name,
+            user_email: email,
+            date: date,
+            location: location,
+            decision_text: decisionText,
+            decision_bg_color: decisionBgColor,
+            decision_text_color: decisionTextColor
+        };
+
+        emailjs.send(SERVICE_ID, TEMPLATE_ID_USER_RESPONSE, templateParams)
+            .then(() => {
+                statusEl.innerHTML = `<h1 class="success">Амжилттай!</h1><p>Хариу амжилттай илгээгдлээ.</p>`;
+            })
+            .catch((error) => {
+                console.error("EmailJS error:", error);
+                statusEl.innerHTML = `<h1 class="error">Алдаа гарлаа!</h1><p>Хариу илгээх үед алдаа гарлаа.</p>`;
+            });
+    </script>
+
+</body>
+
+</html>
